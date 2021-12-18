@@ -1,4 +1,9 @@
 let dotenv = require('dotenv')
 
-dotenv.config()
+
+if(/server$/.test(process.cwd())){
+    dotenv.config()
+} else {
+    dotenv.config({path:'server/.env'})
+}
 module.exports = process.env
