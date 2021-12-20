@@ -10,6 +10,14 @@ class UserService {
         })
         return res.dataValues
     }
+
+    async getUserInfo({id,user_name,is_admin}) {
+        const whereOpt = {}
+
+        id && Object.assign(whereOpt,{id})
+        user_name && Object.assign(whereOpt,{user_name})
+        is_admin && Object.assign(whereOpt,{is_admin})
+    }
 }
 
 module.exports = new UserService()
