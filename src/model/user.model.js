@@ -1,6 +1,5 @@
 // model 是代表数据库这种表的抽象
 const { DataTypes } = require('sequelize')
-
 const seq = require('../db/seq')
 
 const User = seq.define('test_user',{
@@ -23,5 +22,4 @@ const User = seq.define('test_user',{
     }
 })
 
-User.sync({force:true})
 module.exports = User
