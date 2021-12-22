@@ -10,15 +10,16 @@ class UserService {
         return res.dataValues
     }
 
-    async getUserInfo({id,user_name,is_admin}) {
+    async getUserInfo({id,user_name,is_admin,password}) {
         const whereOpt = {}
 
         id && Object.assign(whereOpt,{id})
         user_name && Object.assign(whereOpt,{user_name})
+        password && Object.assign(whereOpt,{password})
         is_admin && Object.assign(whereOpt,{is_admin})
 
         const res = await User.findOne({
-            attributes:['id','user_name','is_admin'],
+            attributes:['id','user_name','is_admin','password'],
             where:whereOpt
         })
         return res?res.dataValues:null
