@@ -40,11 +40,14 @@ const verifyUser = async (ctx,next) =>{
 const cryptPassword = async (ctx,next) =>{
     const {password} = ctx.request.body
 
-    const salt = bcrypt.genSaltSync(10)
-    const hash = bcrypt.hashSync(password,salt)
+    try {
+        const salt = bcrypt.genSaltSync(10)
+        const hash = bcrypt.hashSync(Object.toString(password),salt)
 
-    ctx.request.body.password = hash
-
+        ctx.request.body.password = hash
+    } catch(err) {
+        console.log(err);
+    }
     await next()
 }
 
@@ -53,19 +56,18 @@ const verifyLogin = async (ctx,next)=>{
     const {user_name,password} = ctx.request.body
     try {
         const res = await getUserInfo({user_name})
-
         if(!res) {
             console.error('用户不存在')
             ctx.app.emit('error',userDoesNotExist,ctx)
             return
         }
         // 判断密码
-        if(!bcrypt.compareSync(password,res.password)){
+        if(!bcrypt.compareSync(Object.toString(password),res.password)){
             ctx.app.emit('error',invalidPassword,ctx)
             return
         }
     } catch(err) {
-        console.error('用户登陆失败');
+        console.error('用户登陆失败',err);
         ctx.app.emit('error',userLoginError,ctx)
         return
     }
