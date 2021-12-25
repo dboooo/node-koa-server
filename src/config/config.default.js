@@ -1,9 +1,11 @@
-let dotenv = require('dotenv')
+const path = require("path")
 
-
-if(/server$/.test(process.cwd())){
-    dotenv.config()
-} else {
-    dotenv.config({path:'server/.env'})
+function resolve(dir){
+    return path.join(__dirname,dir)
 }
+
+const dotenv = require('dotenv')
+
+dotenv.config({path:resolve("../../.env")})
+
 module.exports = process.env

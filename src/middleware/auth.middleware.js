@@ -30,11 +30,12 @@ const auth = async (ctx,next)=>{
 
 const hadAdminPermission = async (ctx,next)=>{
     const {is_admin} = ctx.state.user
-
     if(!is_admin) {
-        console.error('无权限',err);
-        return ctx.app.emit('error',hasNotAdminPermission,ctx)
+        ctx.app.emit('error',hasNotAdminPermission,ctx)
+        console.error('error');
+        return 
     }
+    await next()
 }
 
 module.exports = {
